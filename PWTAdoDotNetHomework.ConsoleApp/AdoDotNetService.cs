@@ -91,7 +91,7 @@ namespace PWTAdoDotNetHomework.ConsoleApp
             SqlConnection connection = new SqlConnection(sb.ConnectionString);
             connection.Open();
 
-            string deleteQuery = @"UPDATE FROM [dbo].[tbl_students]
+            string deleteQuery = @"UPDATE [dbo].[tbl_instructors]
                                     SET [DeleteFlag] = 1
                                     WHERE [InstructorID] = 2";
 

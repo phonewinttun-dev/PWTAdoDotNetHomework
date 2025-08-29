@@ -5,4 +5,12 @@ Console.WriteLine("Hello, World!");
 
 AdoDotNetService adoDotNetService = new AdoDotNetService();
 
-adoDotNetService.Read();
+//adoDotNetService.Read();
+
+//adoDotNetService.Create();
+
+//adoDotNetService.Update();
+
+//adoDotNetService.Delete();
+
+
