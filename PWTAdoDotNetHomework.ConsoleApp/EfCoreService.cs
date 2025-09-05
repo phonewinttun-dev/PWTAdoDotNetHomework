@@ -53,10 +53,10 @@ namespace PWT.AdoDotNet.Homework
 
         public void Delete() 
         { 
-            InstructorsDTO? removedInstructors = db.Instructors.Where(x => x.InstructorID == 4).FirstOrDefault();
+            InstructorsDTO? removedInstructors = db.Instructors.Where(x => x.InstructorID == 5).FirstOrDefault();
             if (removedInstructors is not null)
             {
-                db.Instructors.Remove(removedInstructors);
+                removedInstructors.DeleteFlag = true;
                 int result = db.SaveChanges();
                 string message = result > 0 ? "Delete successful!" : "Delete Failed!";
                 Console.WriteLine(message);
