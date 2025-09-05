@@ -12,10 +12,17 @@ using PWTAdoDotNetHomework.ConsoleApp;
 
 //adoDotNetService.Delete();
 
-EfCoreService ef = new EfCoreService();
+//EfCoreService ef = new EfCoreService();
 //ef.Read();
 //ef.Create();
 //ef.Update(); 
 //ef.Delete();
 
+EfCoreService2 ef2 = new EfCoreService2();
+ef2.Read();
 
+//ef2.Create();
+
+//ef2.Update();
+
+//ef2.Delete();
