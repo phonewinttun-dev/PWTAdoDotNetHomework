@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="p-4">
+    <h2 class="mb-4">🧾 Sell Products</h2>
+
+    <div class="mb-3">
+        <label class="form-label">Select Product</label>
+        <select class="form-select" id="ddlProduct"></select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Quantity to Sell</label>
+        <input type="number" class="form-control" id="txtSellQty" min="1">
+    </div>
+
+    <button class="btn btn-primary" onclick="sellProduct()">Sell</button>
+    <a href="index.html" class="btn btn-secondary ms-2">Back to Products</a>
+
+    <hr>
+
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Remaining Quantity</th>
+                <th>Price ($)</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="tbData"></tbody>
+    </table>
+
+    <script>
+        loadProducts();
+        loadTable();
+
+        function getData() {
+            let data = localStorage.getItem('products');
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveData(lst) {
+            localStorage.setItem('products', JSON.stringify(lst));
+        }
+
+        function loadProducts() {
+            const ddl = document.getElementById('ddlProduct');
+            let lst = getData();
+            ddl.innerHTML = '';
+            lst.forEach(p => {
+                ddl.innerHTML += `<option value="${p.Id}">${p.Name}</option>`;
+            });
+        }
+
+        function loadTable() {
+            let lst = getData();
+            const tb = document.getElementById('tbData');
+            tb.innerHTML = '';
+            lst.forEach((p, i) => {
+                const status = p.Quantity <= 0 ? '<span class="text-danger">Out of Stock</span>' : p.Quantity;
+                tb.innerHTML += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${p.Name}</td>
+                    <td>${status}</td>
+                    <td>${p.Price.toFixed(2)}</td>
+                    <td>${p.Quantity <= 0 ? '❌' : '✅'}</td>
+                </tr>`;
+            });
+        }
+
+        function sellProduct() {
+            const id = document.getElementById('ddlProduct').value;
+            const qty = parseInt(document.getElementById('txtSellQty').value);
+
+            if (!qty || qty <= 0) {
+                alert("Please enter a valid quantity.");
+                return;
+            }
+
+            let lst = getData();
+            let product = lst.find(p => p.Id === id);
+
+            if (!product) {
+                alert("Product not found!");
+                return;
+            }
+
+            if (product.Quantity <= 0) {
+                alert("This product is out of stock!");
+                return;
+            }
+
+            if (qty > product.Quantity) {
+                alert(`You cannot sell ${qty}. Only ${product.Quantity} available.`);
+                return;
+            }
+
+            product.Quantity -= qty;
+            saveData(lst);
+            loadTable();
+            loadProducts();
+            document.getElementById('txtSellQty').value = '';
+            alert(`Sold ${qty} of ${product.Name}!`);
+        }
+    </script>
+</body>
+
+</html>
